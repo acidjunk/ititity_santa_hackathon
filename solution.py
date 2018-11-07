@@ -1,6 +1,8 @@
 from __future__ import print_function
 
 import csv
+import math
+
 import structlog
 import helper
 
@@ -19,7 +21,7 @@ logger.info("Started")
 def create_data_model():
     """Stores the data for the problem"""
 
-    _limit = 100
+    _limit = 10
     # _limit = 100000
 
     _locations = [(90, 0), ]
@@ -29,13 +31,13 @@ def create_data_model():
         reader = csv.DictReader(csvfile)
         counter = 0
         for row in reader:
-            if counter <= _limit:
+            if counter < _limit:
                 counter += 1
                 _locations.append((float(row["Latitude"]), float(row["Longitude"])))
                 demands.append(float(row["Weight"]))
 
-    logger.debug("locations", locations=_locations)
-    logger.debug("weights", weights=demands)
+    logger.info("locations", locations=_locations)
+    logger.info("weights", weights=demands)
     logger.info("locations", locations=len(_locations))
     logger.info("weights", weights=len(demands))
 
@@ -74,10 +76,10 @@ def create_distance_callback(data):
                 _distances[from_node][to_node] = 0
             else:
                 _distances[from_node][to_node] = (
-                    helper.haversine(data["locations"][from_node][0],
-                                     data["locations"][from_node][1],
-                                     data["locations"][to_node][0],
-                                     data["locations"][to_node][1]))
+                    helper.haversine(data["locations"][from_node][1],
+                                     data["locations"][from_node][0],
+                                     data["locations"][to_node][1],
+                                     data["locations"][to_node][0]))
 
     def distance_callback(from_node, to_node):
         """Returns the manhattan distance between the two nodes"""
@@ -121,10 +123,10 @@ def print_solution(data, routing, assignment):
             node_index = routing.IndexToNode(index)
             next_node_index = routing.IndexToNode(assignment.Value(routing.NextVar(index)))
             route_dist += helper.haversine(
-                data["locations"][node_index][0],
                 data["locations"][node_index][1],
-                data["locations"][next_node_index][0],
-                data["locations"][next_node_index][1]
+                data["locations"][node_index][0],
+                data["locations"][next_node_index][1],
+                data["locations"][next_node_index][0]
             )
             route_load += data["demands"][node_index]
             plan_output += ' {0} Load({1}) -> '.format(node_index, route_load)
