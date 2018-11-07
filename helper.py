@@ -15,4 +15,8 @@ def haversine(lon1, lat1, lon2, lat2):
     a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
     c = 2 * asin(sqrt(a))
     r = 6371 # Radius of earth in kilometers. Use 3956 for miles
-    return c * r
+    out = c * r
+    print('haversine {0},{1} {2},{3} distance {4}'.format(lon1, lat1, lon2, lat2))
+
+    return out
+
