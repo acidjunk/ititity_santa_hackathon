@@ -1,7 +1,6 @@
 from __future__ import print_function
 
 import csv
-import math
 
 import structlog
 import helper
@@ -21,8 +20,8 @@ logger.info("Started")
 def create_data_model():
     """Stores the data for the problem"""
 
-    _limit = 10
-    # _limit = 100000
+    # _limit = 10
+    _limit = 100000
 
     _locations = [(90, 0), ]
     demands = [0, ]
@@ -131,6 +130,7 @@ def print_solution(data, routing, assignment):
             route_load += data["demands"][node_index]
             plan_output += ' {0} Load({1}) -> '.format(node_index, route_load)
             index = assignment.Value(routing.NextVar(index))
+            break
 
         node_index = routing.IndexToNode(index)
         total_dist += route_dist
