@@ -37,9 +37,10 @@ capacities = [500,500 ]
 
 data["num_vehicles"] = 2
 
-# This is the amount of locations loaded from the csv. 
-# 31 is just and example that it would work beyond 29 packages.
 _limit = 31 
+
+_limit is the amount of locations loaded from the csv. 
+31 is just and example that shows it would work beyond 29 packages.
 
 ======================
 
