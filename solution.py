@@ -7,11 +7,8 @@ from ortools.constraint_solver import pywrapcp
 from ortools.constraint_solver import routing_enums_pb2
 # import os.path
 
-
 logger = structlog.get_logger()
 logger.info("Started")
-
-_roundLimit = 100
 
 # Debug counters.
 _distanceCounter = 0
@@ -22,9 +19,10 @@ _demandCounter = 0
 # - Parse the CSV to locations.
 def create_data_model():
     # Load in first 29 items of data set.
+    # _limit = 31
     _limit = 29
     _locations = [(90, 0), ]
-    demands = [0, ]
+    demands = [0, 0]
 
     with open('gifts.csv') as csv_file:
         reader = csv.DictReader(csv_file)
@@ -42,11 +40,13 @@ def create_data_model():
     
     data = {}
 
+    # capacities = [500,500 ]
     capacities = [500, ]
     
     data["locations"] = _locations
     data["num_locations"] = len(data["locations"])
     data["num_vehicles"] = 1
+    # data["num_vehicles"] = 2
     data["depot"] = 0
     data["demands"] = demands
     data["vehicle_capacities"] = capacities
